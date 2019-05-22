@@ -27,10 +27,23 @@ function isReadyAfterDidFocus(Component) {
 }
 
 class Map extends React.Component {
+  constructor(props) {
+    super(props)
+
+    let listener = props.navigation.addListener('didFocus', () => {
+      this.setState({ isReady: true })
+      listener.remove()
+    })
+
+    this.state = {
+      isReady: false
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        {this.props.isReady ? (
+        {this.state.isReady ? (
           <MapView style={{ height: 300, flex: 1 }} /* provider="google" */ />
         ) : (
           <View style={{ height: 300, flex: 1, backgroundColor: '#f2ecd8' }} />
